@@ -19,7 +19,7 @@ namespace FIMSpace.FEditor
             GUIContent suff = new GUIContent(Attribute.Suffix);
             Vector2 fieldS = EditorStyles.label.CalcSize(suff);
 
-            float fieldSize = 34 + fieldS.x + Attribute.widerField;
+            float fieldSize = 34 + fieldS.x;
             var percField = new Rect(position.x + position.width - fieldSize + 5, position.y, fieldSize, position.height);
             Rect floatField = position;
 
