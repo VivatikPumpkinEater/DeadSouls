@@ -29,60 +29,57 @@ namespace Character.Draft
             }
         }
 
-        private void Awake()
-        {
-            _inputActions = new InputActions();
-            _inputActions.Player.Move.started += OnMovementStarted;
-            _inputActions.Player.Move.performed += OnMovementPerformed;
-            _inputActions.Player.Move.canceled += OnMovementCanceled;
-            _inputActions.Enable();
-            
-            _animationController.PlayMovementAnimation();
-        }
-
-        private void OnMovementStarted(InputAction.CallbackContext context)
-        {
-            Debug.Log("Start");
-        }
-
-        private void OnMovementPerformed(InputAction.CallbackContext context)
-        {
-            Debug.Log($"Performed {context.ReadValue<Vector2>()}");
-            _movementVector = context.ReadValue<Vector2>();
-        }
-        
-        private void OnMovementCanceled(InputAction.CallbackContext context)
-        {
-            Debug.Log("Canceled");
-            _movementVector = Vector3.zero;
-        }
-
-        private void Update()
-        {
-            CalculateSpeed(Time.deltaTime);
-        }
-
-        private void FixedUpdate()
-        {
-            Move(Time.fixedDeltaTime);
-        }
-        
-        private void CalculateSpeed(float deltaTime)
-        {
-            _magnitude = Mathf.Lerp(_magnitude, _movementVector.magnitude,
-                deltaTime * _movementSpeedLerp);
-
-            Speed = _movementEase.Evaluate(_magnitude);
-        }
-
-
-        private void Move(float fixedDeltaTime)
-        {
-            var velocity = _movementVector.normalized * Speed * fixedDeltaTime * 50;
-            velocity.y = _rigidbody.velocity.y;
-
-            _rigidbody.velocity = velocity;
-        }
+        // private void Awake()
+        // {
+        //     _inputActions = new InputActions();
+        //     _inputActions.Player.Move.started += OnMovementStarted;
+        //     _inputActions.Player.Move.performed += OnMovementPerformed;
+        //     _inputActions.Player.Move.canceled += OnMovementCanceled;
+        //     _inputActions.Enable();
+        //     
+        //     _animationController.PlayMovementAnimation();
+        // }
+        //
+        // private void OnMovementStarted(InputAction.CallbackContext context)
+        // {
+        // }
+        //
+        // private void OnMovementPerformed(InputAction.CallbackContext context)
+        // {
+        //     _movementVector = context.ReadValue<Vector2>();
+        // }
+        //
+        // private void OnMovementCanceled(InputAction.CallbackContext context)
+        // {
+        //     _movementVector = Vector3.zero;
+        // }
+        //
+        // private void Update()
+        // {
+        //     CalculateSpeed(Time.deltaTime);
+        // }
+        //
+        // private void FixedUpdate()
+        // {
+        //     Move(Time.fixedDeltaTime);
+        // }
+        //
+        // private void CalculateSpeed(float deltaTime)
+        // {
+        //     _magnitude = Mathf.Lerp(_magnitude, _movementVector.magnitude,
+        //         deltaTime * _movementSpeedLerp);
+        //
+        //     Speed = _movementEase.Evaluate(_magnitude);
+        // }
+        //
+        //
+        // private void Move(float fixedDeltaTime)
+        // {
+        //     var velocity = _movementVector.normalized * Speed * fixedDeltaTime * 50;
+        //     velocity.y = _rigidbody.velocity.y;
+        //
+        //     _rigidbody.velocity = velocity;
+        // }
 
     }
 }
