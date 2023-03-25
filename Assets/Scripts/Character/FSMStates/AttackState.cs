@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Animancer;
 using Animations;
 using Control;
 using Cysharp.Threading.Tasks;
@@ -13,8 +14,10 @@ namespace Character.FSM
         private readonly AnimationController _animationController;
 
         private UniTaskCompletionSource<(Type, InputData)> _tcs = new();
-        
         private Tween _resetSpeedTween;
+
+        private bool _currentAttackCompleted;
+        private AnimancerState _currentAttack;
 
         public AttackState(AnimationController animationController)
         {
@@ -25,7 +28,7 @@ namespace Character.FSM
         {
             _tcs = new();
             token.Register(() => _tcs.TrySetCanceled());
-            
+
             _resetSpeedTween?.Kill();
 
             var result = await _tcs.Task;
@@ -54,9 +57,19 @@ namespace Character.FSM
             }
         }
 
+        //TODO добавить очередь атаки (последовательность/комбо)
         private void RunAttack(AttackType attackType)
         {
-            _animationController.PlayAttackAnimation(attackType);
+            if (_currentAttack != null)
+                return;
+
+            _currentAttack = _animationController.PlayAttackAnimation(attackType);
+            _currentAttack.Events.OnEnd = OnAttackComplete;
+        }
+
+        private void OnAttackComplete()
+        {
+            _currentAttack = null;
         }
 
         public override void TryInterrupt(Type nextState)

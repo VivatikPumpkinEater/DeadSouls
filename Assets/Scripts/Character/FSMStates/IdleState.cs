@@ -35,7 +35,6 @@ namespace Character.FSM
             await UniTask.DelayFrame(1, cancellationToken: token);
 
             _animationController.PlayMovementAnimation();
-            _animationController.MovementBlendRate = 0f;
 
             return await _tcs.Task;
         }

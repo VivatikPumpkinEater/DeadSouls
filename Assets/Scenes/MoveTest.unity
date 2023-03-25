@@ -916,6 +916,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
         type: 3}
+      propertyPath: _movementAnimations.RunToStop._Clip
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: 30daa9e3075e9c644aea9ce63ae98014,
+        type: 3}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
       propertyPath: _attackAnimations.Attack._FadeDuration
       value: 0.16666669
       objectReference: {fileID: 0}
@@ -929,6 +935,17 @@ PrefabInstance:
       propertyPath: _attackAnimations.HeavyAttack._FadeDuration
       value: 0.120000005
       objectReference: {fileID: 0}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _movementAnimations.RunToStop._FadeDuration
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _movementAnimations.Movement._Animations.Array.data[2]
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: fbafb54b0bfb8674bafb26b9471b6d38,
+        type: 3}
     - target: {fileID: 2084797667413094372, guid: ff119c8894f8f1a4787bc8ce92c686c5,
         type: 3}
       propertyPath: _inputHandler

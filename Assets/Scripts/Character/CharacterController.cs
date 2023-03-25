@@ -1,5 +1,6 @@
 using System;
 using Animations;
+using Character.FSM;
 using Control;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace Character
             _stateMachine = new FSMCharacter(_animationController, _rigidbody);
 
             _inputHandler.InputCompleted += _stateMachine.HandleInput;
+            _inputHandler.InputCompleted += HandleInput;
             
             _stateMachine.Run();
         }
@@ -30,6 +32,12 @@ namespace Character
         private void FixedUpdate()
         {
             _stateMachine.FixedUpdate(Time.fixedDeltaTime);
+        }
+
+        private void HandleInput(InputData data)
+        {
+            if (data.State == InputState.JumpClick)
+                _stateMachine.ForceSetState<JumpState>();
         }
     }
 }

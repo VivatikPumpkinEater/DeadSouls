@@ -64,9 +64,7 @@ namespace Character.FSM
         {
             _magnitude = Mathf.Lerp(_magnitude, _movementVector.magnitude,
                 deltaTime * MovementSpeedSettings.MovementSpeedLerp);
-
-            Debug.Log(_magnitude);
-            Debug.Log(MovementSpeedSettings.MovementEase);
+            
             Speed = MovementSpeedSettings.MovementEase.Evaluate(_magnitude);
         }
 
@@ -90,16 +88,26 @@ namespace Character.FSM
             var result = await _tcs.Task;
 
             //Выход из стейта, сбрасываем все данные
-            _resetSpeedTween = DOTween.To(() => Speed, x => { Speed = x; }, 0.0f,
-                    Speed / MovementSpeedSettings.BrakingSpeed)
-                .SetEase(Ease.Linear)
-                .SetUpdate(UpdateType.Manual)
-                .OnUpdate(() => Move(Time.fixedDeltaTime));
+            await StopAnimation();
 
             // _direction = null;
             _magnitude = 0.0f;
 
             return result;
+        }
+
+        private async UniTask StopAnimation()
+        {
+            var state = _animationController.PlayStopAnimation();
+            
+            _resetSpeedTween = DOTween.Sequence()
+                .Append(DOTween.To(() => Speed, x => { Speed = x; }, 0.0f,
+                    state.Duration/2f)
+                .SetEase(Ease.Linear)
+                .SetUpdate(UpdateType.Manual)
+                .OnUpdate(() => Move(Time.fixedDeltaTime)));
+
+            await UniTask.WaitWhile(() => state.NormalizedTime < 0.99f);
         }
 
         public override void HandleInput(InputData data)
