@@ -109,8 +109,11 @@ namespace Character.FSM
                 case InputState.Swipe:
                     _tcs.TrySetResult((typeof(RollState), data));
                     break;
-                case InputState.Click:
-                    // _tcs.TrySetResult((typeof(AttackState), data));
+                case InputState.FastAttack:
+                    _tcs.TrySetResult((typeof(AttackState), data));
+                    break;
+                case InputState.HeavyAttack:
+                    _tcs.TrySetResult((typeof(AttackState), data));
                     break;
                 case InputState.Hold:
                     _movementVector = data.StartTouch;

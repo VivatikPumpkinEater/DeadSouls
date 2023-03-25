@@ -3,51 +3,38 @@ using System.Threading;
 using Animations;
 using Control;
 using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using FSM;
 
 namespace Character.FSM
 {
-    public class IdleState : FSMState, IFixedUpdateListener
+    public class AttackState : FSMState
     {
         private readonly AnimationController _animationController;
 
         private UniTaskCompletionSource<(Type, InputData)> _tcs = new();
+        
+        private Tween _resetSpeedTween;
 
-        public IdleState
-        (
-            AnimationController animationController
-        )
+        public AttackState(AnimationController animationController)
         {
             _animationController = animationController;
         }
 
-        /// <inheritdoc />
         public override async UniTask<(Type, InputData)> Execute(CancellationToken token = default)
         {
             _tcs = new();
             token.Register(() => _tcs.TrySetCanceled());
+            
+            _resetSpeedTween?.Kill();
 
-            // var direction = _searchController.IsContainsTarget
-            //     ? MovementDirection.CombatForward
-            //     : MovementDirection.Forward;
+            var result = await _tcs.Task;
 
-            //НЕ успевает проинится анимансер. Пока в качестве костыля и затычки
-            await UniTask.DelayFrame(1, cancellationToken: token);
+            //Выход из стейта, сбрасываем все данные
 
-            _animationController.PlayMovementAnimation();
-            _animationController.MovementBlendRate = 0f;
-
-            return await _tcs.Task;
+            return result;
         }
 
-        /// <inheritdoc />
-        public void FixedUpdate(float fixedDeltaTime)
-        {
-            // if (_searchController.IsContainsTarget)
-            //     Rotate(fixedDeltaTime);
-        }
-
-        /// <inheritdoc />
         public override void HandleInput(InputData data)
         {
             switch (data.State)
@@ -56,10 +43,10 @@ namespace Character.FSM
                     _tcs.TrySetResult((typeof(RollState), data));
                     break;
                 case InputState.FastAttack:
-                    _tcs.TrySetResult((typeof(AttackState), data));
+                    RunAttack(AttackType.Fast);
                     break;
                 case InputState.HeavyAttack:
-                    _tcs.TrySetResult((typeof(AttackState), data));
+                    RunAttack(AttackType.Heavy);
                     break;
                 case InputState.Hold:
                     _tcs.TrySetResult((typeof(MovementState), data));
@@ -67,11 +54,14 @@ namespace Character.FSM
             }
         }
 
-        /// <inheritdoc />
+        private void RunAttack(AttackType attackType)
+        {
+            _animationController.PlayAttackAnimation(attackType);
+        }
+
         public override void TryInterrupt(Type nextState)
         {
             _tcs.TrySetResult((nextState, default));
         }
-
     }
 }

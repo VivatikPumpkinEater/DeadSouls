@@ -17,6 +17,7 @@ namespace Character
 
             RegisterState(idleState);
             RegisterState(new MovementState(animationController, rigidbody));
+            RegisterState(new AttackState(animationController));
             // RegisterState(new RollState());
 
             SetDefaultState(idleState);

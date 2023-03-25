@@ -32,7 +32,9 @@ namespace Control
         Hold,
         UnPress,
         RollClick,
-        JumpClick
+        JumpClick,
+        FastAttack,
+        HeavyAttack
     }
 
 }

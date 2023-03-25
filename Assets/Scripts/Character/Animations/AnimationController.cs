@@ -1,4 +1,5 @@
 ﻿using Animancer;
+using Character;
 using UnityEngine;
 
 namespace Animations
@@ -7,6 +8,7 @@ namespace Animations
     {
         [SerializeField] private AnimancerComponent _animancerComponent;
         [SerializeField] private MovementAnimations _movementAnimations;
+        [SerializeField] private AttackAnimations _attackAnimations;
 
         public float MovementBlendRate
         {
@@ -17,6 +19,13 @@ namespace Animations
         public void PlayMovementAnimation()
         {
             _animancerComponent.Play(_movementAnimations.Movement);
+        }
+
+        public AnimancerState PlayAttackAnimation(AttackType attackType)
+        {
+            return _animancerComponent.Play(attackType == AttackType.Heavy
+                ? _attackAnimations.HeavyAttack
+                : _attackAnimations.FastAttack);
         }
     }
 }
