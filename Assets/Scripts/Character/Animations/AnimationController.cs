@@ -21,6 +21,11 @@ namespace Animations
             _animancerComponent.Play(_movementAnimations.Movement);
         }
 
+        public AnimancerState PlayStopAnimation()
+        {
+            return _animancerComponent.Play(_movementAnimations.RunToStop);
+        }
+
         public AnimancerState PlayAttackAnimation(AttackType attackType)
         {
             return _animancerComponent.Play(attackType == AttackType.Heavy

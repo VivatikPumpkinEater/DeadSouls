@@ -7,5 +7,6 @@ namespace Animations
     public struct MovementAnimations
     {
         public LinearMixerTransition Movement;
+        public ClipTransition RunToStop;
     }
 }
