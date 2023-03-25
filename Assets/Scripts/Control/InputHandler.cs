@@ -1,29 +1,24 @@
-﻿using UnityEngine;
-using UnityEngine.InputSystem;
+﻿using System;
+using UnityEngine;
 
 namespace Control
 {
-    public class InputHandler : MonoBehaviour
+    public partial class InputHandler : MonoBehaviour
     {
+        public event Action<InputData> InputCompleted; 
+
         private InputActions _inputActions;
 
         private void Awake()
         {
             _inputActions = new InputActions();
+            
+            InitMovementInput();
+            InitJumpInput();
+            InitRollInput();
+            InitAttackInput();
+
             _inputActions.Enable();
-        }
-
-        public void OnMovement(InputAction.CallbackContext context)
-        {
-
-        }
-
-        public void OnJump(InputAction.CallbackContext context)
-        {
-        }
-
-        public void OnRoll(InputAction.CallbackContext context)
-        {
         }
     }
 }

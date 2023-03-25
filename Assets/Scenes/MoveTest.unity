@@ -1022,45 +1022,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Animator: {fileID: 2084797667413094365}
   _ActionOnDisable: 0
---- !u!114 &2084797667413094368
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084797667413094364}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9cf6d4442911441abb0194d40fc75b2d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _animationController: {fileID: 2084797667413094366}
-  _rigidbody: {fileID: 2084797667413094370}
-  _movementSpeedLerp: 3
-  _movementEase:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!54 &2084797667413094370 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 5367238932142051214, guid: ff119c8894f8f1a4787bc8ce92c686c5,
@@ -1073,3 +1034,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2084797667413094363}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2084797667413094372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084797667413094364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5140381fd53c7d54ea1727e3277484a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationController: {fileID: 2084797667413094366}
+  _rigidbody: {fileID: 2084797667413094370}
+  _inputHandler: {fileID: 1313595700}

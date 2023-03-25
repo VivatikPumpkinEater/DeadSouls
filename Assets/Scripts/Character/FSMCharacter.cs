@@ -1,15 +1,25 @@
-﻿using Character.FSM;
+﻿using Animations;
+using Character.FSM;
 using FSM;
+using UnityEngine;
 
 namespace Character
 {
     public class FSMCharacter : FSMController
     {
-        public FSMCharacter()
+        public FSMCharacter
+        (
+            AnimationController animationController,
+            Rigidbody rigidbody
+        )
         {
-            RegisterState(new IdleState());
-            RegisterState(new MoveState());
-            RegisterState(new RollState());
+            var idleState = new IdleState(animationController);
+
+            RegisterState(idleState);
+            RegisterState(new MovementState(animationController, rigidbody));
+            // RegisterState(new RollState());
+
+            SetDefaultState(idleState);
         }
     }
 }

@@ -5,20 +5,34 @@ namespace Control
     public class InputData
     {
         /// <summary> Состояние ввода </summary>
-        // public readonly InputState State;
+        public readonly InputState State;
 
         /// <summary> Точка нажатия </summary>
-        public  Vector3 StartTouch;
+        public  Vector2 StartTouch;
 
         /// <summary> Точка отпускания </summary>
-        public readonly Vector3 EndTouch;
+        public readonly Vector2 EndTouch;
 
-        public InputData(Vector3 startTouch, Vector3 endTouch)
+        public InputData(InputState state, Vector2 startTouch, Vector2 endTouch)
         {
-            // State = state;
+            State = state;
             StartTouch = startTouch;
             EndTouch = endTouch;
         }
 
     }
+    
+    /// <summary> Состояние ввода </summary>
+    public enum InputState
+    {
+        None,
+        Swipe,
+        Click,
+        Press,
+        Hold,
+        UnPress,
+        RollClick,
+        JumpClick
+    }
+
 }
