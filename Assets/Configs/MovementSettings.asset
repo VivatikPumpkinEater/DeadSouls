@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MovementSettings
   m_EditorClassIdentifier: 
   MovementSpeedLerp: 10
-  MovementBreakSpeed: 5
+  MovementBreakSpeed: 0
   MovementEase:
     serializedVersion: 2
     m_Curve:
