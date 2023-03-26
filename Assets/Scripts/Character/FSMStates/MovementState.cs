@@ -5,6 +5,7 @@ using Control;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using FSM;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Character.FSM
@@ -75,6 +76,8 @@ namespace Character.FSM
             // var direction = GetDirection(_searchController.IsContainsTarget);
             // if (direction != _direction)
             //     ChangeDirection(direction);
+
+            ChangeDirection();
             
             CalculateSpeed(deltaTime);
 
@@ -97,6 +100,22 @@ namespace Character.FSM
             velocity.y = _rigidbody.velocity.y;
 
             _rigidbody.velocity = velocity;
+        }
+
+        //TODO подумать
+        private void ChangeDirection()
+        {
+            switch (_movementVector.x)
+            {
+                case > 0 when !_isRight:
+                    _isRight = true;
+                    _rigidbody.rotation = Quaternion.Euler(0,90f,0);
+                    break;
+                case < 0 when _isRight:
+                    _isRight = false;
+                    _rigidbody.rotation = Quaternion.Euler(0,-90f,0);
+                    break;
+            }
         }
 
         public override void HandleInput(InputData data)
