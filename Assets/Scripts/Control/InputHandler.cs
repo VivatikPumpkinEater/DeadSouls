@@ -17,6 +17,7 @@ namespace Control
             InitJumpInput();
             InitRollInput();
             InitAttackInput();
+            InitBlockInput();
 
             _inputActions.Enable();
         }

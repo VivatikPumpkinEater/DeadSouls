@@ -1,4 +1,5 @@
-﻿using Animancer;
+﻿using System;
+using Animancer;
 using Character;
 using UnityEngine;
 
@@ -11,11 +12,20 @@ namespace Animations
         [SerializeField] private AttackAnimations _attackAnimations;
         [SerializeField] private TransitionClip _rollAnimation;
         [SerializeField] private JumpAnimations _jumpAnimations;
+        [SerializeField] private ShieldAnimation _shieldAnimations;
 
+        private AnimancerLayer _shieldLayer;
+        
         public float MovementBlendRate
         {
             get => _movementAnimations.Movement.State.Parameter;
             set => _movementAnimations.Movement.State.Parameter = value;
+        }
+
+        private void Start()
+        {
+            _shieldLayer = _animancerComponent.Layers[1];
+            _shieldLayer.SetMask(_shieldAnimations.Mask);
         }
 
         public void PlayMovementAnimation()
@@ -46,6 +56,14 @@ namespace Animations
             }
 
             return null;
+        }
+
+        public void EnableShieldAnimation(bool value, float fadeDuration = 0.2f)
+        {
+            if(value)
+                _shieldLayer.Play(_shieldAnimations.Block);
+            else
+                _shieldLayer.StartFade(0, fadeDuration);
         }
 
         public AnimancerState PlayAttackAnimation(AttackType attackType)

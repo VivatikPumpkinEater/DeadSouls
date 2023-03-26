@@ -34,7 +34,10 @@ namespace Control
         RollClick,
         JumpClick,
         FastAttack,
-        HeavyAttack
+        HeavyAttack,
+        
+        BlockStart,
+        BlockEnd
     }
 
 }

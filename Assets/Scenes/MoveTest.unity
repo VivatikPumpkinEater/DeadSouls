@@ -922,6 +922,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1552989699 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6762475474417449709, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2084797667413094363}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2084797667413094363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -929,11 +935,77 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _shieldAnimations.Mask
+      value: 
+      objectReference: {fileID: 31900000, guid: 651e8db7a75416d47a3e93650c354f04,
+        type: 2}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _shieldAnimations._Clip
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: ad38e15c58d74e046abebd74105c8a29,
+        type: 3}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.EndJump._Clip
+      value: 
+      objectReference: {fileID: -5771750752226508294, guid: d14f0449d0050c94fac50869aed3e13f,
+        type: 3}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.Falling._Clip
+      value: 
+      objectReference: {fileID: 1657780434630510356, guid: d14f0449d0050c94fac50869aed3e13f,
+        type: 3}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _shieldAnimations.Block._Clip
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: 10817c7f33683024ab4b51f027379280,
+        type: 3}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.Falling._Speed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.StartJump._Clip
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: d14f0449d0050c94fac50869aed3e13f,
+        type: 3}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.EndJump._FadeDuration
+      value: 0.04666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.Falling._FadeDuration
+      value: 0.0066666664
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _shieldAnimations.Block._FadeDuration
+      value: 0.14000002
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084797667413094366, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _jumpAnimations.StartJump._FadeDuration
+      value: 0.04333334
+      objectReference: {fileID: 0}
     - target: {fileID: 2084797667413094372, guid: ff119c8894f8f1a4787bc8ce92c686c5,
         type: 3}
       propertyPath: _inputHandler
       value: 
       objectReference: {fileID: 1313595700}
+    - target: {fileID: 2084797667413094372, guid: ff119c8894f8f1a4787bc8ce92c686c5,
+        type: 3}
+      propertyPath: _bodyController
+      value: 
+      objectReference: {fileID: 2084797667413094379}
     - target: {fileID: 6238315829872631895, guid: ff119c8894f8f1a4787bc8ce92c686c5,
         type: 3}
       propertyPath: m_RootOrder
@@ -1002,3 +1074,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2084797667413094363}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2084797667413094379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1552989699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e708eb0c0c02450cad32e53bc203d016, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

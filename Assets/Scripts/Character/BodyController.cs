@@ -37,7 +37,7 @@ namespace Character
         public float ColliderRadius => Collider.radius;
         public Vector3 Position => transform.position;
         public Vector3 ForwardDirection => transform.forward;
-        public float Mass => _rigidbody.mass;
+        public float Mass => Rigidbody.mass;
 
         public void ResetVelocity()
         {
@@ -82,11 +82,11 @@ namespace Character
             {
                 case > 0 when !_isRight:
                     _isRight = true;
-                    _rigidbody.rotation = Quaternion.Euler(0,90f,0);
+                    Rigidbody.rotation = Quaternion.Euler(0,90f,0);
                     break;
                 case < 0 when _isRight:
                     _isRight = false;
-                    _rigidbody.rotation = Quaternion.Euler(0,-90f,0);
+                    Rigidbody.rotation = Quaternion.Euler(0,-90f,0);
                     break;
             }
         }
@@ -94,9 +94,9 @@ namespace Character
         public void ChangeVelocity(Vector3 velocity, bool changeY = false)
         {
             if (!changeY) 
-                velocity.y = _rigidbody.velocity.y;
+                velocity.y = Rigidbody.velocity.y;
 
-            _rigidbody.velocity = velocity;
+            Rigidbody.velocity = velocity;
         }
     }
 }

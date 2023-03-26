@@ -47,7 +47,8 @@ namespace Character.FSM
         public void FixedUpdate(float fixedDeltaTime)
         {
             Move(fixedDeltaTime);
-            
+            _bodyController.LookAtMovementDirection(_movementVector);
+
             if (IsGround())
                 TryInterrupt(typeof(MovementState));
         }

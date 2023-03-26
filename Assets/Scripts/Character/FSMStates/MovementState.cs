@@ -55,6 +55,8 @@ namespace Character.FSM
 
             //Выход из стейта, сбрасываем все данные
 
+            _animationController.EnableShieldAnimation(false, 0f);
+
             // _direction = null;
             _magnitude = 0.0f;
 
@@ -64,6 +66,7 @@ namespace Character.FSM
         public void FixedUpdate(float fixedDeltaTime)
         {
             Move(fixedDeltaTime);
+            _bodyController.LookAtMovementDirection(_movementVector);
         }
 
         public void Update(float deltaTime)
@@ -74,7 +77,7 @@ namespace Character.FSM
             // var direction = GetDirection(_searchController.IsContainsTarget);
             // if (direction != _direction)
             //     ChangeDirection(direction);
-
+            
             CalculateSpeed(deltaTime);
 
             // _searchController.Search();
@@ -115,6 +118,16 @@ namespace Character.FSM
                     break;
                 case InputState.UnPress:
                     _movementVector = Vector3.zero;
+                    break;
+            }
+
+            switch (data.State)
+            {
+                case InputState.BlockStart:
+                    _animationController.EnableShieldAnimation(true);
+                    break;
+                case InputState.BlockEnd:
+                    _animationController.EnableShieldAnimation(false);
                     break;
             }
         }
