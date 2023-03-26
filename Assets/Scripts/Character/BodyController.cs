@@ -9,6 +9,8 @@ namespace Character
         private CapsuleCollider _collider;
 
         private CancellationTokenSource _cts;
+        
+        private bool _isRight;
 
         public CapsuleCollider Collider
         {
@@ -33,8 +35,8 @@ namespace Character
         }
 
         public float ColliderRadius => Collider.radius;
-
         public Vector3 Position => transform.position;
+        public Vector3 ForwardDirection => transform.forward;
         public float Mass => _rigidbody.mass;
 
         public void ResetVelocity()
@@ -74,5 +76,27 @@ namespace Character
             SetRotation(nextRotation);
         }
 
+        public void LookAtMovementDirection(Vector2 movementVector)
+        {
+            switch (movementVector.x)
+            {
+                case > 0 when !_isRight:
+                    _isRight = true;
+                    _rigidbody.rotation = Quaternion.Euler(0,90f,0);
+                    break;
+                case < 0 when _isRight:
+                    _isRight = false;
+                    _rigidbody.rotation = Quaternion.Euler(0,-90f,0);
+                    break;
+            }
+        }
+
+        public void ChangeVelocity(Vector3 velocity, bool changeY = false)
+        {
+            if (!changeY) 
+                velocity.y = _rigidbody.velocity.y;
+
+            _rigidbody.velocity = velocity;
+        }
     }
 }

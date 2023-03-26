@@ -21,7 +21,7 @@ namespace Character.FSM
         // private readonly CharacterView _view;
         private readonly AnimationController _animationController;
 
-        private readonly Rigidbody _rigidbody;
+        private readonly BodyController _bodyController;
         // private readonly SearchController _searchController;
         // private readonly CollisionTriggerController _collisionTriggerController;
 
@@ -36,7 +36,7 @@ namespace Character.FSM
             // StaminaController staminaController,
             // CharacterView view,
             AnimationController animationController,
-            Rigidbody rigidbody
+            BodyController bodyController
             // SearchController searchController,
             // CollisionTriggerController collisionTriggerController
         )
@@ -44,7 +44,7 @@ namespace Character.FSM
             // _staminaController = staminaController;
             // _view = view;
             _animationController = animationController;
-            _rigidbody = rigidbody;
+            _bodyController = bodyController;
             // _searchController = searchController;
 
             // _collisionTriggerController = collisionTriggerController;
@@ -55,8 +55,8 @@ namespace Character.FSM
         public override async UniTask<(Type, InputData)> Execute(CancellationToken token = default)
         {
             var input = _result.Item2;
-            _direction = (_rigidbody.transform.forward).normalized;
-            _position = _rigidbody.transform.position + _direction * 10f;
+            _direction = _bodyController.ForwardDirection;
+            _position = _bodyController.Position + _direction * 10f;
 
             _result = (typeof(MovementState), default);
 
@@ -113,14 +113,14 @@ namespace Character.FSM
                 return;
 
             //Если нормализированное время не находится в диапазоне, на перса действует усиленное притяжение
-            var normalized = _state.NormalizedTime;
-            if (normalized < _state.Events[StartMovementKey].normalizedTime
-                || normalized > _state.Events[EndMovementKey].normalizedTime)
-            {
-                _rigidbody.velocity = Vector3.up * _rigidbody.velocity.y;
-                _rigidbody.angularVelocity = Vector3.up * _rigidbody.angularVelocity.y;
-                return;
-            }
+            // var normalized = _state.NormalizedTime;
+            // if (normalized < _state.Events[StartMovementKey].normalizedTime
+            //     || normalized > _state.Events[EndMovementKey].normalizedTime)
+            // {
+            //     _rigidbody.velocity = Vector3.up * _rigidbody.velocity.y;
+            //     _rigidbody.angularVelocity = Vector3.up * _rigidbody.angularVelocity.y;
+            //     return;
+            // }
 
             Move(fixedDeltaTime);
             // Rotate(fixedDeltaTime);
@@ -129,14 +129,12 @@ namespace Character.FSM
         /// <summary> Переместить перса </summary>
         private void Move(float fixedDeltaTime)
         {
-            var velocity = (_position - _rigidbody.transform.position) * 15f *
-                           fixedDeltaTime;
-            velocity.y = _rigidbody.velocity.y;
+            var velocity = (_position - _bodyController.Position) * (15f * fixedDeltaTime);
 
-            _rigidbody.velocity = velocity;
+            _bodyController.ChangeVelocity(velocity);
         }
 
-        /// <summary> Повернуть перса </summary>
+        // /// <summary> Повернуть перса </summary>
         // private void Rotate(float fixedDeltaTime)
         // {
         //     if (_direction.sqrMagnitude <= 0.0f)
@@ -149,7 +147,7 @@ namespace Character.FSM
         //     _view.Rigidbody.MoveRotation(targetRotation);
         // }
 
-        /// <summary> Перс сколлизился с бочкой </summary>
+        // /// <summary> Перс сколлизился с бочкой </summary>
         // private void OnTriggerEnter(Collider other)
         // {
         //     var decorationView = other.gameObject.GetComponent<DecorationView>();

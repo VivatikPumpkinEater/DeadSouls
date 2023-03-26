@@ -1,7 +1,6 @@
 ﻿using Animations;
 using Character.FSM;
 using FSM;
-using UnityEngine;
 
 namespace Character
 {
@@ -10,15 +9,15 @@ namespace Character
         public FSMCharacter
         (
             AnimationController animationController,
-            Rigidbody rigidbody
+            BodyController bodyController
         )
         {
-            var movementState = new MovementState(animationController, rigidbody);
+            var movementState = new MovementState(animationController, bodyController);
 
             RegisterState(movementState);
-            RegisterState(new JumpState(rigidbody));
+            RegisterState(new JumpState(animationController, bodyController));
             RegisterState(new AttackState(animationController));
-            RegisterState(new RollState(animationController, rigidbody));
+            RegisterState(new RollState(animationController, bodyController));
 
             SetDefaultState(movementState);
         }

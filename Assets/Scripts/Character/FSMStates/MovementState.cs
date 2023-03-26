@@ -14,15 +14,13 @@ namespace Character.FSM
     public class MovementState : FSMState, IFixedUpdateListener, IUpdateListener
     {
         private readonly AnimationController _animationController;
-        private readonly Rigidbody _rigidbody;
+        private readonly BodyController _bodyController;
         
         private UniTaskCompletionSource<(Type, InputData)> _tcs = new();
         
         private Tween _resetSpeedTween;
 
         private Vector3 _movementVector;
-
-        private bool _isRight;
         
         private float _speed;
         private float _magnitude;
@@ -38,10 +36,10 @@ namespace Character.FSM
             }
         }
 
-        public MovementState(AnimationController animationController, Rigidbody rigidbody)
+        public MovementState(AnimationController animationController, BodyController bodyController)
         {
             _animationController = animationController;
-            _rigidbody = rigidbody;
+            _bodyController = bodyController;
         }
         
         public override async UniTask<(Type, InputData)> Execute(CancellationToken token = default)
@@ -77,8 +75,6 @@ namespace Character.FSM
             // if (direction != _direction)
             //     ChangeDirection(direction);
 
-            ChangeDirection();
-            
             CalculateSpeed(deltaTime);
 
             // _searchController.Search();
@@ -97,25 +93,8 @@ namespace Character.FSM
         private void Move(float fixedDeltaTime)
         {
             var velocity = _movementVector.normalized * Speed * fixedDeltaTime * 50;
-            velocity.y = _rigidbody.velocity.y;
 
-            _rigidbody.velocity = velocity;
-        }
-
-        //TODO подумать
-        private void ChangeDirection()
-        {
-            switch (_movementVector.x)
-            {
-                case > 0 when !_isRight:
-                    _isRight = true;
-                    _rigidbody.rotation = Quaternion.Euler(0,90f,0);
-                    break;
-                case < 0 when _isRight:
-                    _isRight = false;
-                    _rigidbody.rotation = Quaternion.Euler(0,-90f,0);
-                    break;
-            }
+            _bodyController.ChangeVelocity(velocity);
         }
 
         public override void HandleInput(InputData data)

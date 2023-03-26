@@ -1,6 +1,4 @@
-using System;
 using Animations;
-using Character.FSM;
 using Control;
 using UnityEngine;
 
@@ -9,14 +7,14 @@ namespace Character
     public class CharacterController : MonoBehaviour
     {
         [SerializeField] private AnimationController _animationController;
-        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField] private BodyController _bodyController;
         [SerializeField] private InputHandler _inputHandler;
 
         private FSMCharacter _stateMachine;
 
         private void Awake()
         {
-            _stateMachine = new FSMCharacter(_animationController, _rigidbody);
+            _stateMachine = new FSMCharacter(_animationController, _bodyController);
 
             _inputHandler.InputCompleted += _stateMachine.HandleInput;
             _inputHandler.InputCompleted += HandleInput;

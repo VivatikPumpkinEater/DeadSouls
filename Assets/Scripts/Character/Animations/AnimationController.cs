@@ -10,6 +10,7 @@ namespace Animations
         [SerializeField] private MovementAnimations _movementAnimations;
         [SerializeField] private AttackAnimations _attackAnimations;
         [SerializeField] private TransitionClip _rollAnimation;
+        [SerializeField] private JumpAnimations _jumpAnimations;
 
         public float MovementBlendRate
         {
@@ -30,6 +31,21 @@ namespace Animations
         public AnimancerState PlayRollAnimation()
         {
             return _animancerComponent.Play(_rollAnimation);
+        }
+
+        public AnimancerState PlayJumpAnimation(JumpStage stage)
+        {
+            switch (stage)
+            {
+                case JumpStage.Start:
+                    return _animancerComponent.Play(_jumpAnimations.StartJump);
+                case JumpStage.Falling:
+                    return _animancerComponent.Play(_jumpAnimations.Falling);
+                case JumpStage.End:
+                    return _animancerComponent.Play(_jumpAnimations.EndJump);
+            }
+
+            return null;
         }
 
         public AnimancerState PlayAttackAnimation(AttackType attackType)

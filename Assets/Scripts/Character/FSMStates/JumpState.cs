@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Animations;
 using Control;
 using Cysharp.Threading.Tasks;
 using FSM;
@@ -9,7 +10,8 @@ namespace Character.FSM
 {
     public class JumpState : FSMState, IFixedUpdateListener, IUpdateListener
     {
-        private readonly Rigidbody _rigidbody;
+        private readonly AnimationController _animationController;
+        private readonly BodyController _bodyController;
         private UniTaskCompletionSource<(Type, InputData)> _tcs = new();
 
         private Vector3 _movementVector;
@@ -22,9 +24,10 @@ namespace Character.FSM
             set => _speed = value;
         }
 
-        public JumpState(Rigidbody rigidbody)
+        public JumpState(AnimationController animationController, BodyController bodyController)
         {
-            _rigidbody = rigidbody;
+            _animationController = animationController;
+            _bodyController = bodyController;
         }
 
         public override async UniTask<(Type, InputData)> Execute(CancellationToken token = default)
@@ -32,7 +35,7 @@ namespace Character.FSM
             _tcs = new();
             token.Register(() => _tcs.TrySetCanceled());
 
-            _rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            _bodyController.AddForce(Vector3.up * 5f);
             
             var result = await _tcs.Task;
 
@@ -57,9 +60,8 @@ namespace Character.FSM
         private void Move(float fixedDeltaTime)
         {
             var velocity = _movementVector.normalized * Speed * fixedDeltaTime * 50;
-            velocity.y = _rigidbody.velocity.y - 0.1f;
 
-            _rigidbody.velocity = velocity;
+            _bodyController.ChangeVelocity(velocity);
         }
         
         private void CalculateSpeed(float deltaTime)
@@ -72,7 +74,7 @@ namespace Character.FSM
 
         private bool IsGround()
         {
-            return Physics.Raycast(_rigidbody.transform.position, Vector3.down, 0.1f);
+            return Physics.Raycast(_bodyController.Position, Vector3.down, 0.1f);
         }
         
         public override void HandleInput(InputData data)
