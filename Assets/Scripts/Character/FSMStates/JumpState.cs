@@ -33,27 +33,20 @@ namespace Character.FSM
             token.Register(() => _tcs.TrySetCanceled());
 
             _rigidbody.AddForce(Vector3.up * 5f, ForceMode.Impulse);
-
+            
             var result = await _tcs.Task;
 
             //Выход из стейта, сбрасываем все данные
-
-            
             
             return result;
-        }
-
-        public override void HandleInput(InputData data)
-        {
-            if (data.State == InputState.Hold)
-            {
-                _movementVector = data.StartTouch;
-            }
         }
 
         public void FixedUpdate(float fixedDeltaTime)
         {
             Move(fixedDeltaTime);
+            
+            if (IsGround())
+                TryInterrupt(typeof(MovementState));
         }
 
         public void Update(float deltaTime)
@@ -72,9 +65,22 @@ namespace Character.FSM
         private void CalculateSpeed(float deltaTime)
         {
             _magnitude = Mathf.Lerp(_magnitude, _movementVector.magnitude,
-                deltaTime * MovementSpeedSettings.MovementSpeedLerp);
+                deltaTime * 1);
             
             Speed = MovementSpeedSettings.MovementEase.Evaluate(_magnitude);
+        }
+
+        private bool IsGround()
+        {
+            return Physics.Raycast(_rigidbody.transform.position, Vector3.down, 0.1f);
+        }
+        
+        public override void HandleInput(InputData data)
+        {
+            if (data.State is InputState.Hold or InputState.UnPress)
+            {
+                _movementVector = data.StartTouch;
+            }
         }
         
         public override void TryInterrupt(Type nextState)

@@ -29,8 +29,6 @@ namespace Character.FSM
             _tcs = new();
             token.Register(() => _tcs.TrySetCanceled());
 
-            _resetSpeedTween?.Kill();
-
             var result = await _tcs.Task;
 
             //Выход из стейта, сбрасываем все данные
@@ -42,17 +40,11 @@ namespace Character.FSM
         {
             switch (data.State)
             {
-                case InputState.Swipe:
-                    _tcs.TrySetResult((typeof(RollState), data));
-                    break;
                 case InputState.FastAttack:
                     RunAttack(AttackType.Fast);
                     break;
                 case InputState.HeavyAttack:
                     RunAttack(AttackType.Heavy);
-                    break;
-                case InputState.Hold:
-                    _tcs.TrySetResult((typeof(MovementState), data));
                     break;
             }
         }
@@ -70,6 +62,8 @@ namespace Character.FSM
         private void OnAttackComplete()
         {
             _currentAttack = null;
+
+            TryInterrupt(typeof(MovementState));
         }
 
         public override void TryInterrupt(Type nextState)

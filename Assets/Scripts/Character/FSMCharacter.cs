@@ -13,15 +13,14 @@ namespace Character
             Rigidbody rigidbody
         )
         {
-            var idleState = new IdleState(animationController);
+            var movementState = new MovementState(animationController, rigidbody);
 
-            RegisterState(idleState);
-            RegisterState(new MovementState(animationController, rigidbody));
+            RegisterState(movementState);
             RegisterState(new JumpState(rigidbody));
             RegisterState(new AttackState(animationController));
-            // RegisterState(new RollState());
+            RegisterState(new RollState(animationController, rigidbody));
 
-            SetDefaultState(idleState);
+            SetDefaultState(movementState);
         }
     }
 }

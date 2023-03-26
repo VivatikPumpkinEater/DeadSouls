@@ -20,18 +20,14 @@ namespace Control
 
         private void OnFastAttackStarted(InputAction.CallbackContext context)
         {
-            Debug.Log("Start");
         }
         
         private void OnFastAttackPerformed(InputAction.CallbackContext context)
         {
-            Debug.Log("Performed");
         }
         
         private void OnFastAttackCanceled(InputAction.CallbackContext context)
         {
-            Debug.Log("Canceled");
-
             InputCompleted?.Invoke(new InputData(InputState.FastAttack, Vector2.zero, Vector2.zero));
         }
 

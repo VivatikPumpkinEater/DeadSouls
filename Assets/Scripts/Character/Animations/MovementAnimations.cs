@@ -1,12 +1,11 @@
 ﻿using System;
-using Animancer;
 
 namespace Animations
 {
     [Serializable]
     public struct MovementAnimations
     {
-        public LinearMixerTransition Movement;
-        public ClipTransition RunToStop;
+        public LinearMixerTransitionClips Movement;
+        public TransitionClip RunToStop;
     }
 }

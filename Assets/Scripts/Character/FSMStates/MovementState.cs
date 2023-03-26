@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace Character.FSM
 {
+    /// <summary> Стэйт движения а так же покоя </summary>
     public class MovementState : FSMState, IFixedUpdateListener, IUpdateListener
     {
         private readonly AnimationController _animationController;
@@ -20,6 +21,8 @@ namespace Character.FSM
 
         private Vector3 _movementVector;
 
+        private bool _isRight;
+        
         private float _speed;
         private float _magnitude;
         
@@ -40,6 +43,25 @@ namespace Character.FSM
             _rigidbody = rigidbody;
         }
         
+        public override async UniTask<(Type, InputData)> Execute(CancellationToken token = default)
+        {
+            _tcs = new();
+            token.Register(() => _tcs.TrySetCanceled());
+            
+            //TODO костыль, анимансер не успевает проиниться
+            await UniTask.DelayFrame(1, cancellationToken: token);
+            _animationController.PlayMovementAnimation();
+            
+            var result = await _tcs.Task;
+
+            //Выход из стейта, сбрасываем все данные
+
+            // _direction = null;
+            _magnitude = 0.0f;
+
+            return result;
+        }
+        
         public void FixedUpdate(float fixedDeltaTime)
         {
             Move(fixedDeltaTime);
@@ -53,7 +75,7 @@ namespace Character.FSM
             // var direction = GetDirection(_searchController.IsContainsTarget);
             // if (direction != _direction)
             //     ChangeDirection(direction);
-
+            
             CalculateSpeed(deltaTime);
 
             // _searchController.Search();
@@ -62,7 +84,7 @@ namespace Character.FSM
         /// <summary> Расчитать скорость перемещение перса </summary>
         private void CalculateSpeed(float deltaTime)
         {
-            _magnitude = Mathf.Lerp(_magnitude, _movementVector.magnitude,
+            _magnitude = Mathf.Lerp(_magnitude, Mathf.Abs(_movementVector.x),
                 deltaTime * MovementSpeedSettings.MovementSpeedLerp);
             
             Speed = MovementSpeedSettings.MovementEase.Evaluate(_magnitude);
@@ -77,44 +99,11 @@ namespace Character.FSM
             _rigidbody.velocity = velocity;
         }
 
-        
-        public override async UniTask<(Type, InputData)> Execute(CancellationToken token = default)
-        {
-            _tcs = new();
-            token.Register(() => _tcs.TrySetCanceled());
-            
-            _resetSpeedTween?.Kill();
-
-            var result = await _tcs.Task;
-
-            //Выход из стейта, сбрасываем все данные
-            await StopAnimation();
-
-            // _direction = null;
-            _magnitude = 0.0f;
-
-            return result;
-        }
-
-        private async UniTask StopAnimation()
-        {
-            var state = _animationController.PlayStopAnimation();
-            
-            _resetSpeedTween = DOTween.Sequence()
-                .Append(DOTween.To(() => Speed, x => { Speed = x; }, 0.0f,
-                    state.Duration/2f)
-                .SetEase(Ease.Linear)
-                .SetUpdate(UpdateType.Manual)
-                .OnUpdate(() => Move(Time.fixedDeltaTime)));
-
-            await UniTask.WaitWhile(() => state.NormalizedTime < 0.99f);
-        }
-
         public override void HandleInput(InputData data)
         {
             switch (data.State)
             {
-                case InputState.Swipe:
+                case InputState.RollClick:
                     _tcs.TrySetResult((typeof(RollState), data));
                     break;
                 case InputState.FastAttack:
@@ -127,9 +116,8 @@ namespace Character.FSM
                     _movementVector = data.StartTouch;
                     break;
                 case InputState.UnPress:
-                    _tcs.TrySetResult((typeof(IdleState), data));
+                    _movementVector = Vector3.zero;
                     break;
-
             }
         }
 

@@ -27,6 +27,9 @@ namespace Character
         private void Update()
         {
             _stateMachine.Update(Time.deltaTime);
+            
+            if (Input.GetKeyDown(KeyCode.I))
+                Debug.Log(_stateMachine.CurrentState);
         }
 
         private void FixedUpdate()
@@ -36,8 +39,8 @@ namespace Character
 
         private void HandleInput(InputData data)
         {
-            if (data.State == InputState.JumpClick)
-                _stateMachine.ForceSetState<JumpState>();
+            // if (data.State == InputState.JumpClick && _stateMachine.CurrentState is not JumpState)
+            //     _stateMachine.ForceSetState<JumpState>();
         }
     }
 }

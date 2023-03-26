@@ -6,7 +6,7 @@ namespace Animations
     [Serializable]
     public class AttackAnimations
     {
-        public ClipTransition FastAttack;
-        public ClipTransition HeavyAttack;
+        public TransitionClip FastAttack;
+        public TransitionClip HeavyAttack;
     }
 }
