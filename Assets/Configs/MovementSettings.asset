@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0a8772f81653684babebc789d0c6883, type: 3}
   m_Name: MovementSettings
   m_EditorClassIdentifier: 
-  MovementSpeedLerp: 5
+  MovementSpeedLerp: 6
   MovementBreakSpeed: 1
   MovementEase:
     serializedVersion: 2
